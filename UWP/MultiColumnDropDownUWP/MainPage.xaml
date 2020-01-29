@@ -1,0 +1,38 @@
+﻿<Page
+    x:Class="MultiColumnDropDownUWP.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MultiColumnDropDownUWP"
+    xmlns:syncfusion="using:Syncfusion.UI.Xaml.Grid"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Page.DataContext>
+        <local:ViewModel/>
+    </Page.DataContext>
+
+    <Page.Resources>
+        <local:ItemsSourceSelector x:Key="itemSourceSelector" />
+    </Page.Resources>
+
+    <Grid>
+        <syncfusion:SfDataGrid x:Name="sfdatagrid"
+                                AllowEditing="True"
+                                AutoGenerateColumns="False"
+                                ItemsSource="{Binding OrderDetails}"
+                                ColumnSizer="Star">
+           <syncfusion:SfDataGrid.Columns>
+                <syncfusion:GridTextColumn MappingName="OrderID" />
+                <syncfusion:GridTextColumn MappingName="CustomerID" />
+                <syncfusion:GridTextColumn MappingName="ProductName" />
+                <syncfusion:GridTextColumn MappingName="NoOfOrders" />
+                <syncfusion:GridComboBoxColumn MappingName="ShipCountry"  ItemsSource="{Binding Path=DataContext.CountryList, ElementName=sfdatagrid}"/>
+                <syncfusion:GridMultiColumnDropDownList AllowEditing="True" HeaderText="ShipCity" DisplayMember="ShipCityName"
+                                        ItemsSourceSelector="{StaticResource itemSourceSelector}"
+                                        MappingName="ShipCityID" ValueMember="ShipCityID"/>
+            </syncfusion:SfDataGrid.Columns>
+        </syncfusion:SfDataGrid>
+    </Grid>
+</Page>
